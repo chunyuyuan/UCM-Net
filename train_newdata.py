@@ -546,7 +546,7 @@ def main():
     config['optimizer'] == 'AdamW'
     weight_decay=0.01
     config['scheduler'] == 'CosineAnnealingLR'
-    T_max=30#config['epochs']
+    T_max=50#config['epochs']
         
         
 
