@@ -1,6 +1,6 @@
 # UCM-Net
 
-This is the official code repository for "UCM-Net: A Lightweight and Efficient Solution for Skin Lesion Segmentation using MLP and CNN"
+This is the official code repository for "UCM-Net: A Lightweight and Efficient Solution for Skin Lesion Segmentation using MLP and CNN" ([here]https://arxiv.org/abs/2310.09457)
 
 **Prepare the dataset.**
 
@@ -38,5 +38,19 @@ python val.py --name ph2_nb_testing_batch_8
 python val.py --name isic2017_nb_testing_batch_8
 # ISIC2018
 python val.py --name isic2018_nb_testing_batch_8
+
+```
+
+** Citation **
+```
+@article{yuan2024ucm,
+  title={UCM-Net: A lightweight and efficient solution for skin lesion segmentation using MLP and CNN},
+  author={Yuan, Chunyu and Zhao, Dongfang and Agaian, Sos S},
+  journal={Biomedical Signal Processing and Control},
+  volume={96},
+  pages={106573},
+  year={2024},
+  publisher={Elsevier}
+}
 
 ```
