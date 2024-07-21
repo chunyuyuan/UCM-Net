@@ -1,6 +1,6 @@
 # UCM-Net
 
-This is the official code repository for "UCM-Net: A Lightweight and Efficient Solution for Skin Lesion Segmentation using MLP and CNN" ([here]https://arxiv.org/abs/2310.09457)
+This is the official code repository for "UCM-Net: A Lightweight and Efficient Solution for Skin Lesion Segmentation using MLP and CNN" (https://arxiv.org/abs/2310.09457)
 
 **Prepare the dataset.**
 
