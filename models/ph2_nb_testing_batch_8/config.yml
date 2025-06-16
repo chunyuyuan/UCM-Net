@@ -1,0 +1,24 @@
+arch: UCM_Net
+num_classes: 1 # Example value
+input_channels: 3 # Example value
+input_h: 256 # Example value
+input_w: 256 # Example value
+
+# Add any other parameters required by UCM_Net initialization if any
+# For example, if UCM_Net takes embed_dims, num_heads, etc., and they are not optional with defaults
+# embed_dims: [8, 16, 24, 32, 48, 64, 3] # From archs_ucm.py default
+# depths: [1, 1, 1] # From archs_ucm.py default
+# num_heads: [1, 2, 4, 8] # From archs_ucm.py default
+# mlp_ratios: [4, 4, 4, 4] # From archs_ucm.py default
+# sr_ratios: [8, 4, 2, 1] # From archs_ucm.py default
+# qkv_bias: False
+# drop_rate: 0.
+# attn_drop_rate: 0.
+# drop_path_rate: 0.
+
+# The following are defaults from UCM_Net, if not specified, the model might fail to load
+embed_dims: [8, 16, 24, 32, 48, 64, 3]
+num_heads: [1, 2, 4, 8]
+mlp_ratios: [4, 4, 4, 4]
+depths: [1, 1, 1]
+sr_ratios: [8, 4, 2, 1]

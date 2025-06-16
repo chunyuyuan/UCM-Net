@@ -134,9 +134,7 @@ class DWConv(nn.Module):
     def __init__(self, dim=768):
         super(DWConv, self).__init__()
         self.dwconv = nn.Conv2d(dim, dim, 3, 1, 1, bias=True, groups=dim)
-       # self.norm = nn.LayerNorm(dim+1)
-        self.weight = nn.Parameter(torch.ones(dim))
-        self.bias = nn.Parameter(torch.zeros(dim))
+        self.in_norm = nn.InstanceNorm2d(dim, affine=False) # For ONNX compatibility, try without affine params
 
        
 
@@ -144,7 +142,7 @@ class DWConv(nn.Module):
         B, N, C = x.shape
         x = x.transpose(1, 2).view(B, C, H, W)
        
-        x = F.layer_norm(x, [H, W])
+        x = self.in_norm(x) # Replaced F.layer_norm(x, [H, W])
         x = self.dwconv(x)
         x = x.flatten(2).transpose(1, 2)
 
@@ -398,13 +396,13 @@ class UCM_Net(nn.Module):
         out = self.norm5(out)
         out = out.reshape(B, H, W, -1).permute(0, 3, 1, 2).contiguous()
         
-       # outtpre0 = F.interpolate(out, scale_factor=32, mode ='bilinear', align_corners=True)
+       # outtpre0 = F.interpolate(out, scale_factor=32, mode ='bilinear', align_corners=False)
        # outtpre0 =self.finalpre0(outtpre0)
         ### Stage 4
         out = F.relu(F.interpolate(self.dbn0(self.decoder0(out)),scale_factor=(2,2),mode ='bilinear'))
         out = torch.add(out,t5)
         if not inference_mode:
-            outtpre0 = F.interpolate(out, scale_factor=32, mode ='bilinear', align_corners=True)
+            outtpre0 = F.interpolate(out, scale_factor=32, mode ='bilinear', align_corners=False)
             outtpre0 =self.finalpre0(outtpre0)
         #print('outtpre1',torch.sigmoid(outtpre1).size())
         
@@ -423,7 +421,7 @@ class UCM_Net(nn.Module):
         
         out = torch.add(out,t4)
         if not inference_mode:
-            outtpre1 = F.interpolate(out, scale_factor=16, mode ='bilinear', align_corners=True)
+            outtpre1 = F.interpolate(out, scale_factor=16, mode ='bilinear', align_corners=False)
             outtpre1 =self.finalpre1(outtpre1)
         #print('outtpre1',torch.sigmoid(outtpre1).size())
         
@@ -441,7 +439,7 @@ class UCM_Net(nn.Module):
         out = torch.add(out,t3)
      #   out = torch.add(out,t41)
         if not inference_mode:
-            outtpre2 = F.interpolate(out, scale_factor=8, mode ='bilinear', align_corners=True)
+            outtpre2 = F.interpolate(out, scale_factor=8, mode ='bilinear', align_corners=False)
         
             outtpre2 =self.finalpre2(outtpre2)
         #print('outtpre2',outtpre2.size())
@@ -460,7 +458,7 @@ class UCM_Net(nn.Module):
     #    out = torch.add(out,t31)
         #print(out.size())
         if not inference_mode:
-            outtpre3 = F.interpolate(out, scale_factor=4, mode ='bilinear', align_corners=True)
+            outtpre3 = F.interpolate(out, scale_factor=4, mode ='bilinear', align_corners=False)
         
             outtpre3 =self.finalpre3(outtpre3)
         #print('outtpre3',outtpre3.size())
@@ -481,7 +479,7 @@ class UCM_Net(nn.Module):
     #    out = torch.add(out,t21)
         
         if not inference_mode:
-            outtpre4 = F.interpolate(out, scale_factor=2, mode ='bilinear', align_corners=True)
+            outtpre4 = F.interpolate(out, scale_factor=2, mode ='bilinear', align_corners=False)
         
             outtpre4 =self.finalpre4(outtpre4)
         #print('outtpre4',outtpre4.size())        
